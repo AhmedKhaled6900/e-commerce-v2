@@ -4,6 +4,10 @@
 // import bcrypt from "bcryptjs"
 import { RegisterSchema } from "@/schemas";
 import * as z from "zod";
+import bcrypt from "bcrypt"
+import { db } from "@/lib/db";
+import { create } from "domain";
+import { getUserByEmail } from "@/data/user";
 // import { db } from "@/lib/db";
 // import { generateVerificationToken } from "@/lib/tokens";
 // import { getUserByEmail } from "@/data/user";
@@ -11,7 +15,6 @@ import * as z from "zod";
 export const register =  async( values: z.infer<typeof RegisterSchema>) => {
 //validate the values
 const validatedFields =RegisterSchema.safeParse(values)
-console.log(RegisterSchema)
 const passwordMatches = values.password === values.confirmPassword
 
 if(!passwordMatches){
@@ -21,7 +24,22 @@ if(!validatedFields.success){
      return {error:"validation error"};
      
 }
+const {email,password,name,phone } = validatedFields.data
+console.log(validatedFields)
 
+const hashedPassword = await bcrypt.hash(password,10)
+const existingUser =await getUserByEmail(email)
+if(existingUser){
+    return {error:"Email already in use"}
+}
+await db.user.create({
+    data:{
+        email,
+        name,
+        password: hashedPassword,
+        phone
+    }
+})
 // const { email,password,name}=validatedFields.data
 // const hashedPassword = await bcrypt.hash(password,10)
 
@@ -43,5 +61,5 @@ if(!validatedFields.success){
 //     verificationToken.email,
 //     verificationToken.token
 //     ) 
-return{ success:"Confirmation email sent " }
+return{ success:"User created Check your email for verification" }
 }

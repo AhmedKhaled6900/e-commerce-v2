@@ -35,7 +35,7 @@ export const RegisterForm = ()=> {
       password:"",
       name:"",
       phone:"",
-      confirmPassword:""
+      // confirmPassword:""
       
     }
   })
@@ -47,8 +47,8 @@ export const RegisterForm = ()=> {
     starttransition(()=>{
       register(values)
       .then((data)=>{
-        setError(data.error)
-        setSuccess(data.success)
+        setError(data?.error)
+        setSuccess(data?.success)
       })
     })
 register(values)
@@ -67,9 +67,9 @@ headerLabel='Create account'
 name="email"
 render={({field})=>(
   <FormItem>
-    <FormLabel>Email</FormLabel>
+    <FormLabel className="text-white">Email</FormLabel>
     <FormControl>
-<Input 
+<Input className="border-black text-center text-white"
  {...field}
  disabled ={ispending}
 
@@ -84,9 +84,9 @@ render={({field})=>(
 name="name"
 render={({field})=>(
   <FormItem>
-    <FormLabel>Name</FormLabel>
+    <FormLabel className="text-white">Name</FormLabel>
     <FormControl>
-<Input 
+<Input className="border-black text-center text-white"
  {...field}
  disabled ={ispending}
 
@@ -101,10 +101,10 @@ render={({field})=>(
 name="password"
 render={({field})=>(
   <FormItem>
-    <FormLabel>Password</FormLabel>
+    <FormLabel className="text-white">Password</FormLabel>
     <FormControl>
         <div className="relative w-full">
-        <Input 
+        <Input  className="border-black text-center text-white"
  {...field}
  disabled ={ispending}
  placeholder="********"
@@ -131,9 +131,9 @@ className="absolute text-center items-center right-0 top-0  w-20 h-20"> <p class
 name="confirmPassword"
 render={({field})=>(
   <FormItem>
-    <FormLabel>  Confirm Password</FormLabel>
+    <FormLabel className="text-white">  Confirm Password</FormLabel>
     <FormControl>
-<Input 
+<Input className="border-black text-center text-white"
  {...field}
  disabled ={ispending}
  placeholder="********"
@@ -147,13 +147,13 @@ render={({field})=>(
 name="phone"
 render={({field})=>(
   <FormItem>
-    <FormLabel>Mobile Number</FormLabel>
+    <FormLabel className="text-white">Mobile Number</FormLabel>
     <FormControl>
-<Input 
+<Input className="border-black text-center text-white"
  {...field}
  disabled ={ispending}
  placeholder="0123456789"
- type="number"
+ type="text"
  />
     </FormControl>
     <FormMessage/>

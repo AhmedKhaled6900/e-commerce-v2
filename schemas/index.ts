@@ -20,7 +20,7 @@ export const RegisterSchema = z.object({
     name: z.string().min(2, {
         message: "Name must be at least 2 characters"
     }),
-    phone: z.string().min(13, {
-        message: "Phone must be at least 10 characters"
+    phone: z.string().min(11, {
+        message: "Phone must be at least 11 characters"
     })
 })
