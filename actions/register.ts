@@ -8,6 +8,9 @@ import bcrypt from "bcrypt"
 import { db } from "@/lib/db";
 import { create } from "domain";
 import { getUserByEmail } from "@/data/user";
+import { getVerificationTokenByEmail } from "@/data/verification-token";
+import { generateVerificationToken } from "@/lib/tokens";
+import { sendVerificationEmail } from "@/lib/mail";
 // import { db } from "@/lib/db";
 // import { generateVerificationToken } from "@/lib/tokens";
 // import { getUserByEmail } from "@/data/user";
@@ -25,7 +28,7 @@ if(!validatedFields.success){
      
 }
 const {email,password,name,phone } = validatedFields.data
-console.log(validatedFields)
+// console.log(validatedFields)
 
 const hashedPassword = await bcrypt.hash(password,10)
 const existingUser =await getUserByEmail(email)
@@ -40,6 +43,11 @@ await db.user.create({
         phone
     }
 })
+const verificationToken = await generateVerificationToken(email)
+await sendVerificationEmail(
+    verificationToken.email,
+    verificationToken.token
+)
 // const { email,password,name}=validatedFields.data
 // const hashedPassword = await bcrypt.hash(password,10)
 

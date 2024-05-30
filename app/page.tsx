@@ -15,6 +15,12 @@ export default async function Home() {
   <h1>
     Home Page 
   </h1>
+  <h3>
+    {session?.user?.name}
+  </h3>
+  <h3 className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-500">{session?.user.role}</h3>
+  <h3>{session?.user.phone}</h3>
+  <h3>{session?.user.email}</h3>
 
 {
 session ? <SignOutButton>

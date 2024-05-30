@@ -1,13 +1,69 @@
+import NextAuth, { type DefaultSession } from "next-auth"
 
-import NextAuth from "next-auth"
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import { PrismaClient } from "@prisma/client"
 import authConfig from "./auth.config"
 import { db } from "./lib/db"
+import { getUserById } from "./data/user"
  
-
+declare module "next-auth"{
+  interface Session {
+    user: {
+      id: string
+      role: string
+      phone?: string
+    } & DefaultSession["user"]
+  }
+}
  
 export const { handlers, auth , signIn, signOut } = NextAuth({
+  pages: {
+    signIn: "/auth/signin",
+    error: "/auth/error",
+  },
+  events :{
+    async linkAccount ({  user }) {
+    await db.user.update({
+        where: {
+          id: user.id
+        },
+        data: {
+          emailVerified: new Date()
+        }
+      })
+
+    }
+  },
+  callbacks: {
+    async session({ session, token, user }) {
+      if (token.sub && session.user){
+        session.user.id= token.sub
+        session.user.phone= token.phone as string
+
+      }
+      if(token.role && session.user){
+        session.user.role = token.role as string
+      }
+      console.log(session)
+      return {...session,
+        user:{...session.user, role:token.role  }}
+    },
+    async jwt({ token  }) {
+      if (!token.sub){
+    return token
+      }
+
+      const existingUser =await getUserById(token.sub)
+      if(!existingUser){
+        return token
+      }
+      token.phone= existingUser.phone
+      token.role = existingUser.role
+      console.log(token )
+      return token
+    }
+
+  },
   adapter: PrismaAdapter(db),
   session: { strategy: "jwt" },
   ...authConfig,

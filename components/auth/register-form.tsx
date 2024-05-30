@@ -1,6 +1,8 @@
 
 "use client"
 import * as z from "zod"
+import { MdOutlineRemoveRedEye } from "react-icons/md";
+import { FaRegEyeSlash } from "react-icons/fa";
 
 import {useForm} from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -24,6 +26,7 @@ import { FormSuccess } from "./form-success"
 
 export const RegisterForm = ()=> {
     const[showpassword,setShowPassword] = useState("password" || "text") 
+    const[showConfirmedpassword,setShowConfirmedPassword] = useState("password" || "text") 
   const [error ,setError] =useState< string|undefined>("")
   const [success ,setSuccess] =useState< string|undefined>("")
 
@@ -54,14 +57,14 @@ export const RegisterForm = ()=> {
 register(values)
   }
   return (
-<CardWrapper
+<CardWrapper 
 headerLabel='Create account'
     backButtonLabel='Already have an account'
     backButtonHref='/auth/login'
     showSocial
     >
-<Form {...form}>
-<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+<Form {...form} >
+<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 max-h[100vh]">
 <div className="space-y-y4">
 <FormField control={form.control}
 name="email"
@@ -116,9 +119,18 @@ render={({field})=>(
 
 <span onClick={()=>{
 
-setShowPassword(showpassword==="password"?"text":"password")
+setShowPassword(showpassword ==="password"?"text":"password")
 }}
-className="absolute text-center items-center right-0 top-0  w-20 h-20"> <p className="cursor-pointer text-center items-center ">show</p></span>
+
+className="absolute right-2 top-1/2 -translate-y-1/2 text-center items-center cursor-pointer text-white   "> 
+  
+  
+  
+
+{showpassword ==="password"?<FaRegEyeSlash className="w-6 h-6 "/>:
+<MdOutlineRemoveRedEye className="w-6 h-6 "/>}
+  </span>
+
         </div>
 
 
@@ -133,12 +145,23 @@ render={({field})=>(
   <FormItem>
     <FormLabel className="text-white">  Confirm Password</FormLabel>
     <FormControl>
+    <div className="relative w-full">
 <Input className="border-black text-center text-white"
  {...field}
  disabled ={ispending}
  placeholder="********"
- type="password"
+ type={showConfirmedpassword}
  />
+ <span onClick={()=>{
+
+setShowConfirmedPassword(showConfirmedpassword ==="password"?"text":"password")
+}}
+
+className="absolute right-2 top-1/2 -translate-y-1/2 text-center items-center cursor-pointer text-white   "> 
+{showConfirmedpassword ==="password"?<FaRegEyeSlash className="w-6 h-6 "/>:
+<MdOutlineRemoveRedEye className="w-6 h-6 "/>}
+  </span>
+  </div>
     </FormControl>
     <FormMessage/>
   </FormItem>
@@ -165,7 +188,7 @@ render={({field})=>(
 
 
 
-<Button disabled={ispending} type="submit" className="w-full">
+<Button disabled={ispending} type="submit" className="w-full mt-5">
 Register</Button>
 </form>
 </Form>

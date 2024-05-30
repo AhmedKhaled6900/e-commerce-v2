@@ -14,8 +14,11 @@ import { Button } from "../ui/button"
 import { FormError } from "./form-error"
 import { FormSuccess } from "./form-success"
 import { Login } from "@/actions/login"
+import { useSearchParams } from "next/navigation"
 
 export const LoginForm = () => {
+  const searchParams = useSearchParams()
+  const urlError = searchParams.get("error")==="OAuthAccountNotLinked" ?"Email already in use with a different provider" :""
   const [error, setError] = useState<string|undefined>("")
   const [success, setSuccess] = useState <string|undefined>("")
   const [isPending, startTransition] = useTransition()
@@ -30,12 +33,11 @@ export const LoginForm = () => {
     setError("")
     setSuccess("")
     startTransition(() => {
-      // console.log(values)
 Login(values)
 .then((data)=>{
   console.log(data)
-  setError(data.error)
-  setSuccess(data.success)
+  setError(data?.error)
+  setSuccess(data?.success)
 })
       
     })
@@ -99,7 +101,7 @@ Login(values)
           )} />
 
           </div>
-<FormError message={error}></FormError>
+<FormError message={error || urlError}></FormError>
 <FormSuccess message={success} ></FormSuccess>
           <Button type="submit" disabled={isPending}  className="w-full text-lg font-bold">
             Login

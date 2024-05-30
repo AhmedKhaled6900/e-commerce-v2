@@ -1,4 +1,4 @@
-import GitHub from "next-auth/providers/github"
+import Google from "next-auth/providers/google"
 import Facebook from "next-auth/providers/facebook"
 import Credentials from "next-auth/providers/credentials"
 import { LoginSchema } from "./schemas"
@@ -22,4 +22,9 @@ export default { providers: [ Credentials({
 return null
 }
 
-}) ,   GitHub , Facebook] } satisfies NextAuthConfig
+}) ,   Google(
+    {
+        clientId: process.env.GOOGLE_ID as string,
+        clientSecret: process.env.GOOGLE_SECRET as string
+    }
+) , Facebook] } satisfies NextAuthConfig

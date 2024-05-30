@@ -27,7 +27,7 @@ import { Social } from "./social"
 <Card className="  border-0 w-[400px] shadow-2xl text-center z-20  bg-gradient-to-b from-black to-blue-500 border-black ">
 
  
-<CardHeader>
+<CardHeader className="p-3">
         <AuthHeader label={headerLabel} ></AuthHeader>
         </CardHeader>
         <CardContent>

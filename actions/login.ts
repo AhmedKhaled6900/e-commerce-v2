@@ -1,8 +1,10 @@
 "use server"
 
 import { signIn } from "@/auth"
+import { getUserByEmail } from "@/data/user"
+import { sendVerificationEmail } from "@/lib/mail"
+import { generateVerificationToken } from "@/lib/tokens"
 import { LoginSchema } from "@/schemas"
-import { error } from "console"
 import { AuthError } from "next-auth"
 import { z } from "zod"
 
@@ -14,6 +16,15 @@ if(!validatedFields.success)
      return {error: "Invalid email or password"}
 
 const {email,password} = validatedFields.data
+const existingUser =await getUserByEmail(email)
+if(!existingUser || !existingUser.password || !existingUser.email){ 
+     return {error: "Invalid email or password"}
+}
+if(!existingUser.emailVerified){
+     const verificationToken =await generateVerificationToken(email)
+     await sendVerificationEmail(email,verificationToken.token)
+     return{success:" Confirmation email sent. Please verify your email"}
+}
 try{
      await signIn("credentials", {
           email ,
@@ -30,9 +41,7 @@ try{
                
            
        }
-     // return {error: "Invalid email or password"}
 }
 throw error
-// return{success:"Email sent"}
 
 }}
