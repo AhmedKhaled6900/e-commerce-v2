@@ -13,13 +13,13 @@ import { Social } from "./social"
     backButtonHref: string
     showSocial?: boolean
  }
- export default function CardWrapper({
+ export const   CardWrapper=({
    children,
    headerLabel,
    backButtonLabel,
    backButtonHref,
    showSocial
- }: CardWrapperProps) {
+ }: CardWrapperProps)=> {
    return (
 <>
 

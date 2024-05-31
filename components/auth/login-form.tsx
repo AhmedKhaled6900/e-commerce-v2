@@ -4,7 +4,7 @@ import {  useForm } from "react-hook-form"
 import { Suspense, useState, useTransition } from "react"
 import { CardHeader } from "../ui/card"
 import { AuthHeader } from "./auth-header"
-import CardWrapper from "./card-wraper"
+import {CardWrapper} from "./card-wraper"
 import { LoginSchema } from "@/schemas"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -18,7 +18,7 @@ import { useSearchParams } from "next/navigation"
 
 export const LoginForm = () => {
   const searchParams = useSearchParams()
-  const urlError = searchParams.get("error")==="OAuthAccountNotLinked" ?"Email already in use with a different provider" :""
+  // const urlError = searchParams.get("error")==="OAuthAccountNotLinked" ?"Email already in use with a different provider" :""
   const [error, setError] = useState<string|undefined>("")
   const [success, setSuccess] = useState <string|undefined>("")
   const [isPending, startTransition] = useTransition()
@@ -101,10 +101,10 @@ Login(values)
           )} />
 
           </div>
-          <Suspense fallback={<div>Loading...</div>}>
+          {/* <Suspense fallback={<div>Loading...</div>}>
           <FormError message={error || urlError}></FormError>
 
-          </Suspense>
+          </Suspense> */}
 <FormSuccess message={success} ></FormSuccess>
           <Button type="submit" disabled={isPending}  className="w-full text-lg font-bold">
             Login
