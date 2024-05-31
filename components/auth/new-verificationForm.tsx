@@ -15,7 +15,7 @@ const [success, setSuccess] = useState<string | undefined>("");
 
     const seearchParams = useSearchParams();
     const token = seearchParams.get(`token`);
-    const onSubmit =useCallback(()=>{
+    const onSubmit = useCallback(()=>{
         setError("")
         setSuccess("")
         NewVerification(token as string)
@@ -28,7 +28,7 @@ const [success, setSuccess] = useState<string | undefined>("");
     throw error; // Re-throw the error for further handling
  
 })
-    },[token])
+    },[error,token])
 
 
     useEffect(()=>{
