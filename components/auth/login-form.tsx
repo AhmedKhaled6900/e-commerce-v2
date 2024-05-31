@@ -101,7 +101,7 @@ Login(values)
           )} />
 
           </div>
-          <Suspense>
+          <Suspense fallback={<div>Loading...</div>}>
           <FormError message={error || urlError}></FormError>
 
           </Suspense>
