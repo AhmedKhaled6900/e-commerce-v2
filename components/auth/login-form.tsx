@@ -1,7 +1,7 @@
 
 "use client"
 import {  useForm } from "react-hook-form"
-import { useState, useTransition } from "react"
+import { Suspense, useState, useTransition } from "react"
 import { CardHeader } from "../ui/card"
 import { AuthHeader } from "./auth-header"
 import CardWrapper from "./card-wraper"
@@ -101,7 +101,10 @@ Login(values)
           )} />
 
           </div>
-<FormError message={error || urlError}></FormError>
+          <Suspense>
+          <FormError message={error || urlError}></FormError>
+
+          </Suspense>
 <FormSuccess message={success} ></FormSuccess>
           <Button type="submit" disabled={isPending}  className="w-full text-lg font-bold">
             Login
