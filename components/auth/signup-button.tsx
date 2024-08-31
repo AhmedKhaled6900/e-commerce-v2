@@ -12,7 +12,7 @@ export const SignupButton = (
     {children, mode = "redirect", asChild }: ButtonProps) => {
         const router = useRouter();
 const onClick = () => {
-router.push("auth/login")
+router.replace("/auth/login")
 }
     return (
       <span onClick={onClick} className="cursor-pointer">

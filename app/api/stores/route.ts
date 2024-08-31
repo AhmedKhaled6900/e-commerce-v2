@@ -9,10 +9,10 @@ export async function POST(
 ) {
   try {
     const userId =await auth();
-    console.log(userId);
+   
     const body = await req.json();
     const { name } = body;
-    console.log(body);
+ 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 403 });
     }

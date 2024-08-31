@@ -4,38 +4,30 @@ import Image from "next/image";
 import {db} from "@/lib/db"
 import { auth } from "@/auth";
 import SignOutButton from "@/components/auth/signout-button";
+import Container from "@/components/front-end/container";
+import { Billboardcomponenet } from "@/components/front-end/billboard";
+import getBillboard from "@/actions/get-billboards";
+import getProducts from "@/actions/get-products";
+import  ProductList  from "@/components/front-end/product-list";
+
+export const revalidate = 0
 
 export default async function Home() {
   const session =await auth()
-    
+  // console.log(session?.user.id)
+  // const userId =await auth()
+    const billboard = await getBillboard("334c5bec-5d2f-4ba4-9c45-30da0c415b5c")
+    const products = await getProducts({isFeatured:true})
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24 bg-orange-500">
- <div>
-  <h1>
-    Home Page 
-  </h1>
-  <h3>
-    {session?.user?.name}
-  </h3>
-  <h3 className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-500">{session?.user.role}</h3>
-  <h3>{session?.user.phone}</h3>
-  <h3>{session?.user.email}</h3>
-
-{
-session ? <SignOutButton>
-
-</SignOutButton> :
-  <SignupButton>
-  <Button variant={"default"}>
-  Sign up
-</Button>
-  </SignupButton>
-
-}
-
-
- </div>
-    </main>
+    <Container>
+      <div className="space-y-10 pb-10">
+<Billboardcomponenet data={billboard}/>
+     
+      <div className="flex flex-col gap-y-8 px-4 ">
+    <ProductList title="Featured Products" data={products}/>
+    </div>
+      </div>
+    </Container>
   );
 }

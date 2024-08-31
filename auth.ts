@@ -44,7 +44,7 @@ export const { handlers, auth , signIn, signOut } = NextAuth({
       if(token.role && session.user){
         session.user.role = token.role as string
       }
-      console.log(session)
+     
       return {...session,
         user:{...session.user, role:token.role  }}
     },
@@ -59,7 +59,7 @@ export const { handlers, auth , signIn, signOut } = NextAuth({
       }
       token.phone= existingUser.phone
       token.role = existingUser.role
-      console.log(token )
+     
       return token
     }
 
