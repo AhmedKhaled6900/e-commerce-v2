@@ -11,8 +11,7 @@ export const revalidate = 0
 
 export default async function Home() {
   const session =await auth()
-  // console.log(session?.user.id)
-  // const userId =await auth()
+
     const billboard = await getBillboard("334c5bec-5d2f-4ba4-9c45-30da0c415b5c")
     const products = await getProducts({isFeatured:true})
 
