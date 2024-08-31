@@ -1,7 +1,4 @@
-import { SignupButton } from "@/components/auth/signup-button";
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import {db} from "@/lib/db"
+
 import { auth } from "@/auth";
 import SignOutButton from "@/components/auth/signout-button";
 import Container from "@/components/front-end/container";
